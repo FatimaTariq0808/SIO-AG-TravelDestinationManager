@@ -19,9 +19,8 @@ class DestinationController extends Controller
     }
     public function getAllDestinations(DestinationPaginationRequest $request): BaseAPIResponse
     {
-        $validated = $request->validated();
-        $per_page = (int) ($validated['per_page'] ?? 10);
-        $order = $validated['order'] ?? 'desc';
+        $per_page = (int) $request->input('per_page', 10);
+        $order = $request->input('order', 'desc');
         $destinations = $this->destinationService->paginateDestinations($per_page, $order);
         return BaseAPIResponse::success($destinations, 'Destinations retrieved successfully');
     }
